@@ -13,7 +13,11 @@
           </el-input-number>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="100"></el-table-column>
+      <el-table-column label="操作" width="100">
+        <template>
+          <el-button @click="deleteItem($Index)">移除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-descriptions>
       <el-descriptions-item label="总价">￥{{ totalPrice }}</el-descriptions-item>
@@ -50,6 +54,13 @@ export default {
   },
   methods: {
     handleChange () {
+      this.totalPrice = 0
+      for (let i = 0; i < this.tableData.length; ++i) {
+        this.totalPrice += this.tableData[i].amount * this.tableData[i].price
+      }
+    },
+    deleteItem (index) {
+      this.tableData.splice(index, 1)
       this.totalPrice = 0
       for (let i = 0; i < this.tableData.length; ++i) {
         this.totalPrice += this.tableData[i].amount * this.tableData[i].price
