@@ -1,7 +1,8 @@
 <template>
   <div>
     <el-table :data="tableData" border stripe style="width: 100%">
-      <el-table-column type="index" width="40"></el-table-column>
+      <!-- <el-table-column type="index" width="40"></el-table-column> -->
+      <el-table-column prop="id" label="" width="40"></el-table-column>
       <el-table-column prop="name" label="商品名称" width="300"></el-table-column>
       <el-table-column prop="price" label="商品单价" width="100"></el-table-column>
       <el-table-column label="购买数量" width="210">
@@ -14,8 +15,10 @@
         </template>
       </el-table-column>
       <el-table-column label="操作" width="100">
-        <template>
-          <el-button @click="deleteItem($Index)">移除</el-button>
+        <!-- <template> -->
+        <template slot-scope="scope">
+          <!-- <el-button @click="deleteItem($Index)">移除</el-button> -->
+          <el-button @click="deleteItem(scope)">移除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -60,7 +63,13 @@ export default {
       }
     },
     deleteItem (index) {
-      this.tableData.splice(index, 1)
+      // this.tableData.splice(index, 1)
+      for (let i = 0; i < this.tableData.length; ++i) {
+        if (this.tableData[i].id === index.row.id) {
+          this.tableData.splice(i, 1)
+          break
+        }
+      }
       this.totalPrice = 0
       for (let i = 0; i < this.tableData.length; ++i) {
         this.totalPrice += this.tableData[i].amount * this.tableData[i].price
